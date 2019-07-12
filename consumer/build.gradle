@@ -1,15 +1,14 @@
 dependencies {
-    // Use the Kotlin JDK 8 standard library.
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.9'
 
-    // Use the Kotlin test library.
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
-
-    // Use the Kotlin JUnit integration.
-    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
+  testImplementation 'org.jetbrains.kotlin:kotlin-test'
+  testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-application {
-    // Define the main class for the application
-    mainClassName = 'io.pactflow.providerstatesexample.AppKt'
+bootJar {
+  baseName = 'consumer'
+  version =  '0.0.0'
 }
