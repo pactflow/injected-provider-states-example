@@ -1,0 +1,3 @@
+rootProject.name = 'injected-provider-states-example'
+
+include 'consumer', 'provider'
