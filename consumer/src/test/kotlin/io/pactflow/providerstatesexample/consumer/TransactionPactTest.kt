@@ -6,6 +6,7 @@ import au.com.dius.pact.consumer.dsl.PactDslWithProvider
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt
 import au.com.dius.pact.consumer.junit5.PactTestFor
 import au.com.dius.pact.core.model.annotations.Pact
+import au.com.dius.pact.core.model.matchingrules.RegexMatcher
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.equalTo
@@ -38,17 +39,17 @@ class TransactionPactTest {
           .integerType("version", 0)
           .stringType("name", "Test")
           .stringValue("accountRef", "Test001")
-          .timestamp("createdDate")
-          .timestamp("lastModifiedDate")
+          .timestamp("createdDate", "yyyy-MM-dd'T'HH:mm:ss.SZ")
+          .timestamp("lastModifiedDate", "yyyy-MM-dd'T'HH:mm:ss.SZ")
           .`object`("accountNumber")
             .valueFromProviderState("id", "\${accountNumber}", 100)
           .closeObject()
           .`object`("_links")
             .`object`("self")
-              .matchUrl("href", "http://localhost:8080", "/accounts", "\\d+")
+              .matchUrl("href", "http://localhost:8080", "/accounts", RegexMatcher("\\d+", "100"))
             .closeObject()
             .`object`("account")
-              .matchUrl("href", "http://localhost:8080", "/accounts", "\\d+")
+              .matchUrl("href", "http://localhost:8080", "/accounts", RegexMatcher("\\d+", "200"))
             .closeObject()
           .closeObject()
       ).toPact()

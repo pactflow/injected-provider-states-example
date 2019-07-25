@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: INFO
+    au:
+      com:
+        dius:
+          pact: DEBUG
