@@ -1,0 +1,13 @@
+server:
+  port: 8081
+
+provider:
+  url: "http://localhost:8080"
+
+logging:
+  level:
+    root: INFO
+    au:
+      com:
+        dius:
+          pact: DEBUG

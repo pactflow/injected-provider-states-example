@@ -1,5 +1,7 @@
 package io.pactflow.providerstatesexample.consumer
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import mu.KLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -16,16 +18,15 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestTemplate
-import java.net.URI
 
 data class Account(
   var id: Int,
-  var accountNumber: Int,
+  var accountNumber: AccountNumber?,
   var version: Int,
-  var name: String,
-  var accountRef: String,
-  var createdDate: String,
-  var lastModifiedDate: String
+  var name: String = "",
+  var accountRef: String = "",
+  var createdDate: String = "",
+  var lastModifiedDate: String = ""
 )
 
 data class AccountNumber(var id: Int)
@@ -37,12 +38,12 @@ class TransactionController {
   private lateinit var restTemplate: RestTemplate
 
   @Value("\${provider.url}")
-  private lateinit var providerUrl: String
+  lateinit var providerUrl: String
 
   @RequestMapping("/transactions", method = [RequestMethod.POST])
-  fun new(@RequestParam account: Int): Map<String, Any> {
-    logger.info { "Creating a new transaction for account $account" }
-    val url = "$providerUrl/accounts/$account"
+  fun new(@RequestParam accountNumber: Int): Map<String, Any> {
+    logger.info { "Creating a new transaction for account $accountNumber" }
+    val url = "$providerUrl/accounts/search/findOneByAccountNumberId?accountNumber=$accountNumber"
     logger.info { "Getting account details -> $url" }
     val responseEntity = restTemplate.exchange(url, HttpMethod.GET, null,
       object : ParameterizedTypeReference<Resource<Account>>() {})
@@ -51,10 +52,6 @@ class TransactionController {
       logger.info { "          Id ${responseEntity.body.id}" }
       val account = responseEntity.body.content
       logger.info { "     Content $account" }
-      val accountNumber = restTemplate.exchange(responseEntity.body.getLink("accountNumber").href, HttpMethod.GET, null,
-        object : ParameterizedTypeReference<Resource<AccountNumber>>() {}).body
-      account.id = URI(responseEntity.body.id.href).path.split("/").last().toInt()
-      account.accountNumber = URI(accountNumber.id.href).path.split("/").last().toInt()
       mapOf("account" to account)
     } else emptyMap()
   }
@@ -66,6 +63,9 @@ class TransactionController {
 class App {
   @Bean
   fun restTemplate(builder: RestTemplateBuilder) = builder.build()
+
+  @Bean
+  fun objectMapper() = ObjectMapper().registerModule(KotlinModule())
 }
 
 fun main(args: Array<String>) {
