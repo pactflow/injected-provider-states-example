@@ -12,7 +12,8 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer
 
 @Configuration
 class RepositoryConfig : RepositoryRestConfigurer {
-  override fun configureRepositoryRestConfiguration(config: RepositoryRestConfiguration) {
+  @Override
+  fun configureRepositoryRestConfiguration(config: RepositoryRestConfiguration) {
     config.exposeIdsFor(Account::class.java, AccountNumber::class.java)
   }
 }

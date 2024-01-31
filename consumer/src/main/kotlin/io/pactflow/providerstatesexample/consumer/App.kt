@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.core.ParameterizedTypeReference
-import org.springframework.hateoas.Resource
+import org.springframework.hateoas.EntityModel
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.RequestMapping
@@ -46,10 +46,10 @@ class TransactionController {
     val url = "$providerUrl/accounts/search/findOneByAccountNumberId?accountNumber=$accountNumber"
     logger.info { "Getting account details -> $url" }
     val responseEntity = restTemplate.exchange(url, HttpMethod.GET, null,
-      object : ParameterizedTypeReference<Resource<Account>>() {})
+      object : ParameterizedTypeReference<EntityModel<Account>>() {})
     return if (responseEntity.statusCode == HttpStatus.OK) {
       logger.info { "Got response ${responseEntity.body}" }
-      logger.info { "          Id ${responseEntity.body.id}" }
+      logger.info { "          Id ${responseEntity.body.content.id}" }
       val account = responseEntity.body.content
       logger.info { "     Content $account" }
       mapOf("account" to account)
