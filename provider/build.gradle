@@ -3,14 +3,14 @@ plugins {
 }
 
 dependencies {
-  implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib'
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.9'
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation 'org.springframework.boot:spring-boot-starter-data-rest'
   implementation 'com.h2database:h2'
 
-  testCompile('org.springframework.boot:spring-boot-starter-test')
+  testImplementation('org.springframework.boot:spring-boot-starter-test')
   testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
   testImplementation 'au.com.dius.pact.provider:junit5:4.1.42'
 }
