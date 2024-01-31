@@ -4,11 +4,10 @@ name: CI
 on:
     push:
         branches:
-            - main
-            - dep_update
+            - master
     pull_request:
         branches:
-            - main
+            - master
 jobs:
     test:
         runs-on: ubuntu-latest
