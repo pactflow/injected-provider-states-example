@@ -4,15 +4,15 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Version
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import org.springframework.data.repository.PagingAndSortingRepository
+import org.springframework.data.jpa.repository.JpaRepository
 import java.util.Date
-import javax.persistence.CascadeType
-import javax.persistence.Entity
-import javax.persistence.EntityListeners
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.OneToOne
+import jakarta.persistence.CascadeType
+import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.OneToOne
 
 @Entity
 class AccountNumber(@Id @GeneratedValue(strategy=GenerationType.AUTO) val id: Long)
@@ -29,6 +29,6 @@ class Account @JvmOverloads constructor(
   @LastModifiedDate var lastModifiedDate: Date? = null
 )
 
-interface AcountRepository: PagingAndSortingRepository<Account, Long> {
+interface AccountRepository: JpaRepository<Account, Long> {
   fun findOneByAccountNumberId(accountNumber: Long): Account
 }

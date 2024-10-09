@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class PactVerificationTest {
 
   @Autowired
-  lateinit var acountRepository: AcountRepository
+  lateinit var accountRepository: AccountRepository
 
   @TestTemplate
   @ExtendWith(PactVerificationInvocationContextProvider::class)
@@ -27,7 +27,7 @@ class PactVerificationTest {
   @State("Account Test001 exists")
   fun createAccount(params: Map<String, String>): Map<String, Any> {
     val account = Account(0, 0, params["accountRef"]!!, AccountNumber(0), params["accountRef"]!!)
-    val persistedAccount = acountRepository.save(account)
+    val persistedAccount = accountRepository.save(account)
     return mapOf("accountNumber" to persistedAccount.accountNumber.id)
   }
 

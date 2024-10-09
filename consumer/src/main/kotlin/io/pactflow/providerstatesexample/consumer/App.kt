@@ -1,8 +1,8 @@
 package io.pactflow.providerstatesexample.consumer
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import mu.KLogging
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.core.ParameterizedTypeReference
-import org.springframework.hateoas.Resource
+import org.springframework.hateoas.EntityModel
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.RequestMapping
@@ -40,23 +40,24 @@ class TransactionController {
   @Value("\${provider.url}")
   lateinit var providerUrl: String
 
+  private val logger = KotlinLogging.logger {} 
+
   @RequestMapping("/transactions", method = [RequestMethod.POST])
   fun new(@RequestParam accountNumber: Int): Map<String, Any> {
     logger.info { "Creating a new transaction for account $accountNumber" }
     val url = "$providerUrl/accounts/search/findOneByAccountNumberId?accountNumber=$accountNumber"
     logger.info { "Getting account details -> $url" }
     val responseEntity = restTemplate.exchange(url, HttpMethod.GET, null,
-      object : ParameterizedTypeReference<Resource<Account>>() {})
-    return if (responseEntity.statusCode == HttpStatus.OK) {
-      logger.info { "Got response ${responseEntity.body}" }
-      logger.info { "          Id ${responseEntity.body.id}" }
-      val account = responseEntity.body.content
+    object : ParameterizedTypeReference<EntityModel<Account>>(){})
+      return if (responseEntity.statusCode == HttpStatus.OK) {
+      logger.info { "Got response $responseEntity.body" }
+      logger.info { "          Id $responseEntity.body.content.id" }
+      val account: Account = responseEntity.body.content
       logger.info { "     Content $account" }
       mapOf("account" to account)
     } else emptyMap()
   }
 
-  companion object: KLogging()
 }
 
 @SpringBootApplication
@@ -65,7 +66,7 @@ class App {
   fun restTemplate(builder: RestTemplateBuilder) = builder.build()
 
   @Bean
-  fun objectMapper() = ObjectMapper().registerModule(KotlinModule())
+  fun objectMapper() = ObjectMapper().registerKotlinModule()
 }
 
 fun main(args: Array<String>) {
