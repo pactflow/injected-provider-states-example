@@ -39,18 +39,18 @@ class TransactionPactTest {
           .integerType("version", 0)
           .stringType("name", "Test")
           .stringValue("accountRef", "Test001")
-          .timestamp("createdDate", "yyyy-MM-dd'T'HH:mm:ss.SZ")
-          .timestamp("lastModifiedDate", "yyyy-MM-dd'T'HH:mm:ss.SZ")
+          .datetime("createdDate", "yyyy-MM-dd'T'HH:mm:ss.SZ")
+          .datetime("lastModifiedDate", "yyyy-MM-dd'T'HH:mm:ss.SZ")
           .`object`("accountNumber")
             .valueFromProviderState("id", "\${accountNumber}", 100)
-          .closeObject()
-          .`object`("_links")
+          .closeObject()!!
+            .`object`("_links")
             .`object`("self")
-              .matchUrl("href", "http://localhost:8080", "/accounts", RegexMatcher("\\d+", "100"))
-            .closeObject()
+              .matchUrl("href", "http://localhost:8080" as String?, "/accounts" as Any, RegexMatcher("\\d+", "100") as Any)
+            .closeObject()!!
             .`object`("account")
-              .matchUrl("href", "http://localhost:8080", "/accounts", RegexMatcher("\\d+", "200"))
-            .closeObject()
+            .matchUrl("href", "http://localhost:8080" as String?, "/accounts" as Any, RegexMatcher("\\d+", "200") as Any)
+            .closeObject()!!
           .closeObject()
       ).toPact()
 
