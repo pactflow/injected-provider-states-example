@@ -1,8 +1,8 @@
 package io.pactflow.providerstatesexample.provider
 
-import au.com.dius.pact.provider.junit.Provider
-import au.com.dius.pact.provider.junit.State
-import au.com.dius.pact.provider.junit.loader.PactFolder
+import au.com.dius.pact.provider.junitsupport.Provider
+import au.com.dius.pact.provider.junitsupport.State
+import au.com.dius.pact.provider.junitsupport.loader.PactFolder
 import au.com.dius.pact.provider.junit5.PactVerificationContext
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider
 import org.junit.jupiter.api.TestTemplate
@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @Provider("AccountService")
 @PactFolder("pacts")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class PactVerificationTest {
 
   @Autowired
