@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import au.com.dius.pact.core.model.PactSpecVersion; // required for v4.6.x to set pactVersion
 
 @ExtendWith(PactConsumerTestExt::class)
 @PactTestFor(providerName = "AccountService")
@@ -39,23 +40,23 @@ class TransactionPactTest {
           .integerType("version", 0)
           .stringType("name", "Test")
           .stringValue("accountRef", "Test001")
-          .datetime("createdDate", "yyyy-MM-dd'T'HH:mm:ss.SZ")
-          .datetime("lastModifiedDate", "yyyy-MM-dd'T'HH:mm:ss.SZ")
+          .datetime("createdDate", "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+          .datetime("lastModifiedDate", "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
           .`object`("accountNumber")
             .valueFromProviderState("id", "\${accountNumber}", 100)
           .closeObject()!!
             .`object`("_links")
             .`object`("self")
-              .matchUrl("href", "http://localhost:8080" as String?, "/accounts" as Any, RegexMatcher("\\d+", "100") as Any)
+              .matchUrl("href", "http://localhost:8080" as String?, "accounts" as Any, RegexMatcher("\\d+", "100") as Any)
             .closeObject()!!
             .`object`("account")
-            .matchUrl("href", "http://localhost:8080" as String?, "/accounts" as Any, RegexMatcher("\\d+", "200") as Any)
+            .matchUrl("href", "http://localhost:8080" as String?, "accounts" as Any, RegexMatcher("\\d+", "200") as Any)
             .closeObject()!!
-          .closeObject()
+          .closeObject() as PactDslJsonBody
       ).toPact()
 
   @Test
-  @PactTestFor(pactMethod = "accounts")
+  @PactTestFor(pactMethod = "accounts", pactVersion = PactSpecVersion.V3)
   fun testNewTransaction(mockServer: MockServer) {
     controller.providerUrl = mockServer.getUrl()
     val result = controller.new(100)
