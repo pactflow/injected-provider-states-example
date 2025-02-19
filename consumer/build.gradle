@@ -10,8 +10,8 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
   testImplementation 'au.com.dius.pact.consumer:junit5:4.6.17'
-  testImplementation 'ch.qos.logback:logback-core:1.5.8'
-  testImplementation 'ch.qos.logback:logback-classic:1.5.8'
+  testImplementation 'ch.qos.logback:logback-core:1.5.16'
+  testImplementation 'ch.qos.logback:logback-classic:1.5.16'
 }
 
 bootJar {
