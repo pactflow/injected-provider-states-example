@@ -3,7 +3,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-hateoas'
   implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.18.3'
-  implementation('io.github.oshai:kotlin-logging:7.0.6') {
+  implementation('io.github.oshai:kotlin-logging:7.0.7') {
     exclude group: 'org.jetbrains.kotlin'
   }
 
