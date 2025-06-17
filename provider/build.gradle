@@ -11,7 +11,7 @@ dependencies {
   implementation 'com.h2database:h2'
 
   testImplementation('org.springframework.boot:spring-boot-starter-test')
-  testImplementation 'org.junit.jupiter:junit-jupiter:5.13.0'
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.13.1'
   testImplementation 'au.com.dius.pact.provider:junit5:4.6.17'
 }
 
