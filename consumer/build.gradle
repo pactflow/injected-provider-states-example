@@ -8,7 +8,7 @@ dependencies {
   }
 
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  testImplementation 'org.junit.jupiter:junit-jupiter:6.0.0'
+  testImplementation 'org.junit.jupiter:junit-jupiter:6.0.1'
   testImplementation 'au.com.dius.pact.consumer:junit5:4.6.17'
   testImplementation 'ch.qos.logback:logback-core:1.5.20'
   testImplementation 'ch.qos.logback:logback-classic:1.5.20'
