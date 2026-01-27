@@ -16,7 +16,7 @@ dependencies {
 }
 
 bootJar {
-  archivesBaseName = 'provider'
+  archiveBaseName = 'provider'
   version =  '0.0.0'
 }
 
