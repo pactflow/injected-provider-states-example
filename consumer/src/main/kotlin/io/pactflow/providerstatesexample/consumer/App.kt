@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.boot.restclient.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.hateoas.EntityModel
@@ -50,11 +50,15 @@ class TransactionController {
     val responseEntity = restTemplate.exchange(url, HttpMethod.GET, null,
     object : ParameterizedTypeReference<EntityModel<Account>>(){})
       return if (responseEntity.statusCode == HttpStatus.OK) {
-      logger.info { "Got response $responseEntity.body" }
-      logger.info { "          Id $responseEntity.body.content.id" }
-      val account: Account = responseEntity.body.content
+      logger.info { "Got response ${responseEntity.body}" }
+      logger.info { "          Id ${responseEntity.body?.content?.id}" }
+      val account: Account? = responseEntity.body?.content
       logger.info { "     Content $account" }
-      mapOf("account" to account)
+      if (account != null) {
+        mapOf("account" to account)
+      } else {
+        emptyMap()
+      }
     } else emptyMap()
   }
 
