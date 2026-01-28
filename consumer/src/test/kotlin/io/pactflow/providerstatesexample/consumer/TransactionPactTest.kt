@@ -33,7 +33,7 @@ class TransactionPactTest {
       .queryParameterFromProviderState("accountNumber", "\${accountNumber}", "100")
       .willRespondWith()
       .status(200)
-      .headers(mapOf("Content-Type" to "application/hal+json"))
+      .headers(mapOf("Content-Type" to "application/vnd.hal+json"))
       .body(
         PactDslJsonBody()
           .integerType("id", 1)
