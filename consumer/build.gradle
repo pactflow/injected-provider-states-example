@@ -4,7 +4,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-hateoas'
   implementation 'org.springframework.boot:spring-boot-starter-restclient'
   implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.21.3'
-  implementation('io.github.oshai:kotlin-logging:8.0.02') {
+  implementation('io.github.oshai:kotlin-logging:8.0.03') {
     exclude group: 'org.jetbrains.kotlin'
   }
 
